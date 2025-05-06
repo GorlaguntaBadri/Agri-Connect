@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+{% block title %}
+Validate Product
+{% endblock title %}
+
+{% block style %}
+<style>
+  .validation-form {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    margin: 30px auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-control {
+    height: 45px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    font-size: 16px;
+  }
+
+  .form-control:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25);
+  }
+
+  .product-info {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    border-left: 4px solid #4CAF50;
+  }
+
+  .product-info h4 {
+    color: #333;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .product-info p {
+    color: #555;
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+
+  .product-info p strong {
+    color: #333;
+    font-weight: 600;
+  }
+
+  .btn-validate {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .btn-validate:hover {
+    background-color: #3e8e41;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 600;
+  }
+
+  .alert {
+    border-radius: 5px;
+    margin-bottom: 20px;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="validation-form">
+        <h3 class="page-title">Validate Product</h3>
+        
+        {% with messages=get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+          {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        
+        <div class="product-info">
+          <h4>Product Details</h4>
+          <p><strong>Name:</strong> {{ product.productname }}</p>
+          <p><strong>Description:</strong> {{ product.productdesc }}</p>
+          <p><strong>Farmer:</strong> {% if product.farmer %}{{ product.farmer.farmername }}{% else %}Unknown{% endif %}</p>
+          <p><strong>Added on:</strong> {{ product.created_at.strftime('%Y-%m-%d %H:%M') }}</p>
+        </div>
+        
+        <form action="/validate_product/{{ product.pid }}" method="post">
+          <div class="form-group">
+            <label for="price">Price (₹)</label>
+            <input type="number" step="0.01" class="form-control" name="price" id="price" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="status">Quality Grade</label>
+            <select class="form-control" name="status" id="status" required>
+              <option value="">Select Quality Grade</option>
+              <option value="Premium">Premium</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Standard">Standard</option>
+              <option value="Basic">Basic</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn-validate">Validate Product</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock body %} 

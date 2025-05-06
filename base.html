@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block title %}
+  {% endblock title %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  {% block style %}
+  {% endblock style %}
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Custom CSS -->
+  <style>
+    :root {
+      --primary-color: #2ecc71;
+      --secondary-color: #27ae60;
+      --dark-color: #2c3e50;
+      --light-color: #ecf0f1;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+    
+    #header {
+      background: white;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+    }
+    
+    #logo a {
+      color: var(--primary-color);
+      font-size: 24px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .nav-menu li {
+      list-style: none;
+      position: relative;
+    }
+    
+    .nav-menu li a {
+      color: var(--dark-color);
+      font-weight: 500;
+      text-decoration: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .nav-menu li a:hover {
+      color: var(--primary-color);
+      background-color: rgba(46, 204, 113, 0.1);
+    }
+    
+    .nav-menu li.active a {
+      color: var(--primary-color);
+      background-color: rgba(46, 204, 113, 0.1);
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 20px;
+    }
+    
+    .user-menu .btn {
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .user-menu .btn-primary {
+      background: var(--primary-color);
+      border: none;
+    }
+    
+    .user-menu .btn-primary:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+    
+    .user-menu .btn-outline-primary {
+      border-color: var(--primary-color);
+      color: var(--primary-color);
+    }
+    
+    .user-menu .btn-outline-primary:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-2px);
+    }
+    
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 15px;
+      border-radius: 8px;
+      background: rgba(46, 204, 113, 0.1);
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+    
+    .user-profile i {
+      font-size: 18px;
+    }
+    
+    #main {
+      margin-top: 80px;
+      min-height: calc(100vh - 80px);
+    }
+    
+    .alert {
+      border-radius: 10px;
+      border: none;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+    }
+    
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+    
+    .back-to-top {
+      position: fixed;
+      right: 30px;
+      bottom: 30px;
+      background: var(--primary-color);
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .back-to-top:hover {
+      background: var(--secondary-color);
+      color: white;
+      transform: translateY(-3px);
+    }
+    
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .btn-primary {
+      background: var(--primary-color);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+    }
+    
+    .btn-primary:hover {
+      background: var(--secondary-color);
+    }
+    
+    .form-control {
+      border-radius: 10px;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+    }
+    
+    .form-control:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header id="header">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div id="logo">
+          <a href="/" class="scrollto">
+            <i class="fas fa-leaf"></i>
+            <span>AgriConnect</span>
+          </a>
+        </div>
+
+        <nav id="nav-menu-container">
+          <ul class="nav-menu">
+            <li class="{% block home %}{% endblock home %}">
+              <a href="/">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+              </a>
+            </li>
+            {% if current_user.is_authenticated %}
+              {% if current_user.role == 'farmer' %}
+                {% if profile %}
+                  <li>
+                    <a href="{{ url_for('edit', rid=profile.rid) }}">
+                      <i class="fas fa-user-edit"></i>
+                      <span>Edit Profile</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/myproducts">
+                      <i class="fas fa-box"></i>
+                      <span>My Products</span>
+                    </a>
+                  </li>
+                {% else %}
+                  <li>
+                    <a href="/farmerprofile">
+                      <i class="fas fa-user-plus"></i>
+                      <span>Create Profile</span>
+                    </a>
+                  </li>
+                {% endif %}
+              {% endif %}
+              {% if current_user.role == 'validator' %}
+                <li>
+                  <a href="/pending_products">
+                    <i class="fas fa-clock"></i>
+                    <span>Pending Products</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/farmerdetails">
+                    <i class="fas fa-users"></i>
+                    <span>Farmer Details</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/triggers">
+                    <i class="fas fa-history"></i>
+                    <span>Records</span>
+                  </a>
+                </li>
+              {% endif %}
+              {% if current_user.role == 'buyer' %}
+                <li>
+                  <a href="{{ url_for('agroproducts') }}">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span>Products</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url_for('cart') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="{{ url_for('orders') }}">
+                    <i class="fas fa-receipt"></i>
+                    <span>Orders</span>
+                  </a>
+                </li>
+              {% endif %}
+              <li>
+                <a href="/agroproducts">
+                  <i class="fas fa-seedling"></i>
+                  <span>Agro Products</span>
+                </a>
+              </li>
+              <div class="user-menu">
+                <div class="user-profile">
+                  <i class="fas fa-user"></i>
+                  <span>{{current_user.username}} ({{current_user.role}})</span>
+                </div>
+                <a href="/logout" class="btn btn-outline-primary">
+                  <i class="fas fa-sign-out-alt"></i>
+                  <span>Logout</span>
+                </a>
+              </div>
+            {% else %}
+              <div class="user-menu">
+                <a href="/signup" class="btn btn-primary">
+                  <i class="fas fa-user-plus"></i>
+                  <span>Sign Up</span>
+                </a>
+                <a href="/login" class="btn btn-outline-primary">
+                  <i class="fas fa-sign-in-alt"></i>
+                  <span>Login</span>
+                </a>
+              </div>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main">
+    {% block body %}
+    {% with messages=get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="container">
+      <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+        {{message}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% endblock body %}
+  </main>
+
+  <a href="#" class="back-to-top"><i class="fas fa-arrow-up"></i></a>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JS -->
+  <script>
+    // Back to top button
+    window.addEventListener('scroll', function() {
+      if (window.pageYOffset > 100) {
+        document.querySelector('.back-to-top').style.display = 'flex';
+      } else {
+        document.querySelector('.back-to-top').style.display = 'none';
+      }
+    });
+    
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

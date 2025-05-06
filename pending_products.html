@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}
+Pending Products
+{% endblock title %}
+
+{% block style %}
+<style>
+  .product-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .product-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .product-description {
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .btn-validate {
+    padding: 5px 15px;
+  }
+  
+  .no-products {
+    text-align: center;
+    padding: 30px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <h2 class="mb-4">Pending Products for Validation</h2>
+      
+      {% with messages=get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+        {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      
+      {% if products %}
+        {% for product in products %}
+        <div class="product-card">
+          <div class="product-header">
+            <div class="product-title">{{ product.productname }}</div>
+            <a href="/validate_product/{{ product.pid }}" class="btn btn-success btn-validate">Validate</a>
+          </div>
+          <div class="product-description">{{ product.productdesc }}</div>
+          <div class="product-meta">
+            <span>Farmer: {{ product.farmer.farmername }}</span>
+            <span>Added on: {{ product.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+          </div>
+          <div class="product-meta mt-2">
+            <span><strong>Quality:</strong> Not yet validated</span>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="no-products">
+          <h4>No pending products to validate</h4>
+          <p>All products have been validated.</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock body %} 

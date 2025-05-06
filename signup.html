@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block title %}Sign Up - AgriConnect{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card border-0 shadow-lg">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <i class="fas fa-leaf fa-3x text-primary mb-3"></i>
+            <h2 class="h4 mb-3">Create Your Account</h2>
+            <p class="text-muted">Join AgriConnect to start your journey</p>
+          </div>
+          
+          <form method="POST" action="/signup">
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="username" class="form-label">Username</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text" class="form-control" id="username" name="username" placeholder="Choose a username" required>
+                </div>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                  <input type="password" class="form-control" id="password" name="password" placeholder="Create a password" required>
+                </div>
+              </div>
+              
+              <div class="col-md-6 mb-3">
+                <label for="confirm_password" class="form-label">Confirm Password</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
+                </div>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label for="role" class="form-label">Select Your Role</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                <select class="form-select" id="role" name="role" required>
+                  <option value="" selected disabled>Choose your role</option>
+                  <option value="farmer">Farmer</option>
+                  <option value="buyer">Buyer</option>
+                  <option value="validator">Validator</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-plus me-2"></i>Create Account
+              </button>
+            </div>
+          </form>
+          
+          <div class="text-center mt-4">
+            <p class="mb-0">Already have an account? <a href="/login" class="text-primary">Login</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  border-radius: 15px;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+}
+
+.input-group-text i {
+  color: #666;
+}
+
+.form-control, .form-select {
+  border: 1px solid #ddd;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+}
+
+.btn-primary {
+  padding: 12px;
+  font-weight: 500;
+}
+</style>
+{% endblock %}

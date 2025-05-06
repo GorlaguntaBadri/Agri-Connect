@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Login - AgriConnect{% endblock %}
+
+{% block body %}
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card border-0 shadow-lg">
+        <div class="card-body p-5">
+          <div class="text-center mb-4">
+            <i class="fas fa-leaf fa-3x text-primary mb-3"></i>
+            <h2 class="h4 mb-3">Welcome Back</h2>
+            <p class="text-muted">Login to your AgriConnect account</p>
+          </div>
+          
+          <form method="POST" action="/login">
+            <div class="mb-3">
+              <label for="email" class="form-label">Email address</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <label for="password" class="form-label">Password</label>
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+              </div>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+              </button>
+            </div>
+          </form>
+          
+          <div class="text-center mt-4">
+            <p class="mb-0">Don't have an account? <a href="/signup" class="text-primary">Sign up</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  border-radius: 15px;
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+}
+
+.input-group-text i {
+  color: #666;
+}
+
+.form-control {
+  border: 1px solid #ddd;
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(46, 204, 113, 0.25);
+}
+
+.btn-primary {
+  padding: 12px;
+  font-weight: 500;
+}
+</style>
+{% endblock %}

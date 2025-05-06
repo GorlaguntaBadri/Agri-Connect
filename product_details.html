@@ -1,0 +1,468 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.productname }}{% endblock %}
+
+{% block style %}
+<style>
+    .product-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .product-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+    }
+    
+    .product-image {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .product-image img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+    }
+    
+    .product-info {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .product-name {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--dark-color);
+        margin-bottom: 1rem;
+    }
+    
+    .product-price {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .product-description {
+        color: #666;
+        margin-bottom: 1.5rem;
+        line-height: 1.6;
+    }
+    
+    .product-meta {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .meta-item {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        text-align: center;
+    }
+    
+    .meta-label {
+        font-size: 0.9rem;
+        color: #666;
+        margin-bottom: 0.5rem;
+    }
+    
+    .meta-value {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--dark-color);
+    }
+    
+    .seasonal-indicator {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .seasonal-bar {
+        flex: 1;
+        height: 8px;
+        background: #eee;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    .seasonal-fill {
+        height: 100%;
+        background: var(--primary-color);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+    
+    .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .action-btn {
+        padding: 1rem;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .add-to-cart-btn {
+        background: var(--primary-color);
+        color: white;
+    }
+    
+    .add-to-cart-btn:hover {
+        background: var(--secondary-color);
+    }
+    
+    .add-to-list-btn {
+        background: #f8f9fa;
+        color: var(--dark-color);
+        border: 1px solid #ddd;
+    }
+    
+    .add-to-list-btn:hover {
+        background: #e9ecef;
+    }
+    
+    .price-alert-section {
+        background: #f8f9fa;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1.5rem;
+    }
+    
+    .price-alert-form {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .price-input {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .set-alert-btn {
+        padding: 0.5rem 1rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .reviews-section {
+        margin-top: 2rem;
+    }
+    
+    .review-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1rem;
+    }
+    
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    
+    .reviewer-name {
+        font-weight: 600;
+    }
+    
+    .review-date {
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .review-rating {
+        color: #ffc107;
+        margin-bottom: 0.5rem;
+    }
+    
+    .review-text {
+        color: #666;
+        line-height: 1.6;
+    }
+    
+    .similar-products {
+        margin-top: 2rem;
+    }
+    
+    .similar-products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+    
+    .similar-product-card {
+        background: white;
+        padding: 1rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .similar-product-name {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+    
+    .similar-product-price {
+        color: var(--primary-color);
+        font-weight: 600;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="product-container">
+    <div class="product-grid">
+        <div class="product-image">
+            <img src="{{ url_for('static', filename='images/products/' + product.productname.lower().replace(' ', '_') + '.jpg') }}" 
+                 alt="{{ product.productname }}"
+                 onerror="this.src='{{ url_for('static', filename='images/products/default.jpg') }}'">
+        </div>
+        
+        <div class="product-info">
+            <h1 class="product-name">{{ product.productname }}</h1>
+            <div class="product-price">₹{{ product.price }}</div>
+            <p class="product-description">{{ product.productdesc }}</p>
+            
+            <div class="product-meta">
+                <div class="meta-item">
+                    <div class="meta-label">Available Quantity</div>
+                    <div class="meta-value">{{ product.quantity }}</div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Rating</div>
+                    <div class="meta-value">
+                        {% if product.analytics and product.analytics.average_rating %}
+                            {{ "%.1f"|format(product.analytics.average_rating) }}/5
+                        {% else %}
+                            No ratings yet
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-label">Views</div>
+                    <div class="meta-value">
+                        {% if product.analytics %}
+                            {{ product.analytics.views }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="seasonal-indicator">
+                <span>Seasonal Demand:</span>
+                <div class="seasonal-bar">
+                    <div class="seasonal-fill" style="width: {{ seasonal_demand * 100 }}%"></div>
+                </div>
+            </div>
+            
+            <form action="{{ url_for('add_to_cart', pid=product.pid) }}" method="POST" class="action-buttons">
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.quantity }}" 
+                           class="form-control" onchange="validateQuantity(this, {{ product.quantity }})">
+                </div>
+                <button type="submit" class="action-btn add-to-cart-btn">
+                    <i class="fas fa-shopping-cart"></i>
+                    Add to Cart
+                </button>
+                <button type="button" class="action-btn add-to-list-btn" onclick="showShoppingLists()">
+                    <i class="fas fa-list"></i>
+                    Add to List
+                </button>
+            </form>
+            
+            <div class="price-alert-section">
+                <h3>Set Price Alert</h3>
+                <form class="price-alert-form" onsubmit="setPriceAlert(event)">
+                    <input type="number" class="price-input" placeholder="Enter target price" step="0.01" required>
+                    <button type="submit" class="set-alert-btn">Set Alert</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="reviews-section">
+        <h2>Customer Reviews</h2>
+        {% if current_user.is_authenticated and current_user.role == 'buyer' %}
+            <form action="{{ url_for('add_review', pid=product.pid) }}" method="POST" class="review-form">
+                <div class="form-group">
+                    <label for="rating">Your Rating:</label>
+                    <select name="rating" id="rating" required>
+                        <option value="">Select rating</option>
+                        <option value="5">5 stars</option>
+                        <option value="4">4 stars</option>
+                        <option value="3">3 stars</option>
+                        <option value="2">2 stars</option>
+                        <option value="1">1 star</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review_text">Your Review:</label>
+                    <textarea name="review_text" id="review_text" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Review</button>
+            </form>
+        {% endif %}
+        
+        {% for review in reviews %}
+            <div class="review-card">
+                <div class="review-header">
+                    <span class="reviewer-name">{{ review.user.username }}</span>
+                    <span class="review-date">{{ review.created_at.strftime('%Y-%m-%d') }}</span>
+                </div>
+                <div class="review-rating">
+                    {% for i in range(review.rating) %}
+                        <i class="fas fa-star"></i>
+                    {% endfor %}
+                </div>
+                <p class="review-text">{{ review.review_text }}</p>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="similar-products">
+        <h2>Similar Products</h2>
+        <div class="similar-products-grid">
+            {% for similar in similar_products %}
+                <div class="similar-product-card">
+                    <div class="similar-product-name">{{ similar.productname }}</div>
+                    <div class="similar-product-price">₹{{ similar.price }}</div>
+                    <a href="{{ url_for('product_details', pid=similar.pid) }}" class="btn btn-outline-primary mt-2">
+                        View Details
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<script>
+function validateQuantity(input, maxQuantity) {
+    const value = parseInt(input.value);
+    if (value < 1) {
+        input.value = 1;
+    } else if (value > maxQuantity) {
+        alert(`Only ${maxQuantity} items available`);
+        input.value = maxQuantity;
+    }
+}
+
+function showShoppingLists() {
+    // Fetch user's shopping lists
+    fetch('/shopping_lists')
+        .then(response => response.json())
+        .then(lists => {
+            // Show modal with shopping lists
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <h3>Add to Shopping List</h3>
+                    <div class="shopping-lists">
+                        ${lists.map(list => `
+                            <div class="shopping-list-item">
+                                <input type="radio" name="list" value="${list.id}">
+                                <label>${list.name}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="modal-actions">
+                        <button onclick="addToSelectedList()">Add to List</button>
+                        <button onclick="closeModal()">Cancel</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        });
+}
+
+function addToSelectedList() {
+    const selectedList = document.querySelector('input[name="list"]:checked');
+    if (!selectedList) {
+        alert('Please select a list');
+        return;
+    }
+    
+    const listId = selectedList.value;
+    const quantity = document.getElementById('quantity').value;
+    
+    fetch(`/add_to_shopping_list/${listId}/{{ product.pid }}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ quantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Added to shopping list!');
+            closeModal();
+        } else {
+            alert(data.error || 'Error adding to list');
+        }
+    });
+}
+
+function closeModal() {
+    const modal = document.querySelector('.modal');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function setPriceAlert(event) {
+    event.preventDefault();
+    const targetPrice = event.target.querySelector('input').value;
+    
+    fetch('/set_price_alert/{{ product.pid }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ target_price: targetPrice })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Price alert set successfully!');
+        } else {
+            alert(data.error || 'Error setting price alert');
+        }
+    });
+}
+</script>
+{% endblock %} 

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+Products
+{% endblock title %}
+
+{% block style %}
+<style>
+  .product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-card img {
+    max-width: 100%;
+    border-radius: 8px;
+  }
+
+  .ad-section {
+    background-color: #f9f9f9;
+    border: 1px dashed #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+    font-style: italic;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-4">
+  <h2 class="text-center mb-4">Our Products</h2>
+
+  <div class="row">
+    {% for product in products %}
+    <div class="col-md-4">
+      <div class="product-card">
+        <img src="{{ product.image_url }}" alt="{{ product.name }}">
+        <h5 class="mt-2">{{ product.name }}</h5>
+        <p>{{ product.description }}</p>
+        <p><strong>Price:</strong> ${{ product.price }}</p>
+        <button class="btn btn-primary btn-block">Buy Now</button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="ad-section">
+    <p>Advertise with us! Contact us for more details.</p>
+  </div>
+
+  <div class="ad-section">
+    <p>Special discounts available for bulk purchases. Don't miss out!</p>
+  </div>
+</div>
+{% endblock body %}

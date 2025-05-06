@@ -1,0 +1,155 @@
+{% extends "base.html" %}
+
+{% block title %}Coupons{% endblock %}
+
+{% block style %}
+<style>
+    .coupons-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .coupons-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+    
+    .coupons-grid {
+        display: grid;
+        gap: 1rem;
+    }
+    
+    .coupon-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .coupon-code {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        text-align: center;
+        padding: 0.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border: 2px dashed var(--primary-color);
+    }
+    
+    .coupon-details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .coupon-detail {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    
+    .coupon-detail-label {
+        font-weight: 500;
+        color: #666;
+    }
+    
+    .coupon-detail-value {
+        font-weight: 600;
+    }
+    
+    .coupon-status {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+    
+    .status-active {
+        background: #28a745;
+        color: white;
+    }
+    
+    .status-inactive {
+        background: #dc3545;
+        color: white;
+    }
+    
+    .create-coupon-btn {
+        padding: 0.75rem 1.5rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .create-coupon-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="coupons-container">
+    <div class="coupons-header">
+        <h1>Coupons</h1>
+        <a href="{{ url_for('create_sample_coupons') }}" class="create-coupon-btn">
+            <i class="fas fa-plus"></i>
+            Create Sample Coupons
+        </a>
+    </div>
+    
+    <div class="coupons-grid">
+        {% for coupon in coupons %}
+        <div class="coupon-card">
+            <div class="coupon-code">
+                {{ coupon.code }}
+            </div>
+            <div class="coupon-details">
+                <div class="coupon-detail">
+                    <span class="coupon-detail-label">Discount:</span>
+                    <span class="coupon-detail-value">{{ coupon.discount_percent }}%</span>
+                </div>
+                <div class="coupon-detail">
+                    <span class="coupon-detail-label">Min. Purchase:</span>
+                    <span class="coupon-detail-value">₹{{ coupon.min_purchase }}</span>
+                </div>
+                <div class="coupon-detail">
+                    <span class="coupon-detail-label">Valid Until:</span>
+                    <span class="coupon-detail-value">{{ coupon.valid_until.strftime('%Y-%m-%d') }}</span>
+                </div>
+                <div class="coupon-detail">
+                    <span class="coupon-detail-label">Usage:</span>
+                    <span class="coupon-detail-value">
+                        {{ coupon.times_used }}/{{ '∞' if coupon.usage_limit is none else coupon.usage_limit }}
+                    </span>
+                </div>
+                <div class="coupon-detail">
+                    <span class="coupon-detail-label">Status:</span>
+                    <span class="coupon-status {{ 'status-active' if coupon.is_active else 'status-inactive' }}">
+                        {{ 'Active' if coupon.is_active else 'Inactive' }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %} 

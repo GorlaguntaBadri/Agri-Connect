@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+{% block title %}AgriConnect - Home{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero-section py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-4 fw-bold mb-4">Connecting Farmers and Buyers</h1>
+        <p class="lead mb-4">A modern platform for farmers to showcase their products and for buyers to discover fresh, high-quality agricultural produce.</p>
+        {% if not current_user.is_authenticated %}
+        <div class="d-flex gap-3">
+          <a href="/signup" class="btn btn-primary btn-lg">Get Started</a>
+          <a href="/login" class="btn btn-outline-primary btn-lg">Login</a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="col-lg-6">
+        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+             alt="Farmers Market" class="img-fluid rounded-3 shadow-lg">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">Why Choose AgriConnect?</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <i class="fas fa-leaf fa-3x text-primary mb-3"></i>
+            <h3 class="h5 mb-3">Direct from Farm</h3>
+            <p class="text-muted">Get fresh produce directly from farmers, ensuring quality and fair prices.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <i class="fas fa-shield-alt fa-3x text-primary mb-3"></i>
+            <h3 class="h5 mb-3">Quality Assurance</h3>
+            <p class="text-muted">All products are verified by our team to ensure the highest standards.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <i class="fas fa-truck fa-3x text-primary mb-3"></i>
+            <h3 class="h5 mb-3">Easy Delivery</h3>
+            <p class="text-muted">Convenient delivery options to get your products to your doorstep.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works py-5">
+  <div class="container">
+    <h2 class="text-center mb-5">How It Works</h2>
+    <div class="row g-4">
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+              <span class="h4 mb-0">1</span>
+            </div>
+            <h3 class="h5 mb-3">Create Account</h3>
+            <p class="text-muted">Sign up as a farmer, buyer, or validator to get started.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+              <span class="h4 mb-0">2</span>
+            </div>
+            <h3 class="h5 mb-3">List Products</h3>
+            <p class="text-muted">Farmers can list their products with details and pricing.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+              <span class="h4 mb-0">3</span>
+            </div>
+            <h3 class="h5 mb-3">Validate</h3>
+            <p class="text-muted">Our validators ensure product quality and authenticity.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body text-center p-4">
+            <div class="rounded-circle bg-primary text-white d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+              <span class="h4 mb-0">4</span>
+            </div>
+            <h3 class="h5 mb-3">Buy & Sell</h3>
+            <p class="text-muted">Buyers can purchase products and farmers get paid directly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials py-5 bg-light">
+  <div class="container">
+    <h2 class="text-center mb-5">What Our Users Say</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+              <div>
+                <h5 class="mb-0">John Doe</h5>
+                <small class="text-muted">Farmer</small>
+              </div>
+            </div>
+            <p class="text-muted">"AgriConnect has helped me reach more customers and get better prices for my produce. The platform is easy to use and the support is excellent."</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+              <div>
+                <h5 class="mb-0">Jane Smith</h5>
+                <small class="text-muted">Buyer</small>
+              </div>
+            </div>
+            <p class="text-muted">"I love being able to buy fresh produce directly from farmers. The quality is always excellent and the prices are fair. Highly recommended!"</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 border-0 shadow-sm">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center mb-3">
+              <img src="https://randomuser.me/api/portraits/men/67.jpg" alt="User" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+              <div>
+                <h5 class="mb-0">Mike Johnson</h5>
+                <small class="text-muted">Validator</small>
+              </div>
+            </div>
+            <p class="text-muted">"As a validator, I appreciate how the platform helps maintain quality standards and ensures fair trade between farmers and buyers."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta py-5">
+  <div class="container text-center">
+    <h2 class="mb-4">Ready to Get Started?</h2>
+    <p class="lead mb-4">Join our community of farmers and buyers today.</p>
+    {% if not current_user.is_authenticated %}
+    <a href="/signup" class="btn btn-primary btn-lg">Create Your Account</a>
+    {% endif %}
+  </div>
+</section>
+
+<style>
+.hero-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 100px 0;
+}
+
+.hero-section h1 {
+  color: var(--dark-color);
+}
+
+.hero-section .lead {
+  color: #666;
+}
+
+.features-section .card {
+  transition: transform 0.3s;
+}
+
+.features-section .card:hover {
+  transform: translateY(-5px);
+}
+
+.how-it-works .card {
+  transition: transform 0.3s;
+}
+
+.how-it-works .card:hover {
+  transform: translateY(-5px);
+}
+
+.testimonials .card {
+  transition: transform 0.3s;
+}
+
+.testimonials .card:hover {
+  transform: translateY(-5px);
+}
+
+.cta {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+}
+</style>
+{% endblock %}

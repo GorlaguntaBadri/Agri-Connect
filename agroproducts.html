@@ -1,0 +1,290 @@
+{% extends "base.html" %}
+{% block title %}Agro Products{% endblock %}
+
+{% block style %}
+<style>
+    .product-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+    }
+
+    .product-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-name {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: var(--dark-color);
+    }
+
+    .product-description {
+        color: #666;
+        margin-bottom: 1rem;
+        min-height: 60px;
+    }
+
+    .product-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.5rem 0;
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+    }
+
+    .product-price {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--primary-color);
+    }
+
+    .product-status {
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+
+    .status-validated {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .status-pending {
+        background: #fff3e0;
+        color: #e65100;
+    }
+
+    .product-farmer {
+        font-size: 0.875rem;
+        color: #666;
+        margin-bottom: 1rem;
+    }
+
+    .add-to-cart-form {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .quantity-input {
+        width: 80px;
+        padding: 0.5rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .add-to-cart-btn {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .add-to-cart-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    .add-to-cart-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+
+    .no-products {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 1rem;
+    }
+
+    .product-date {
+        font-size: 0.75rem;
+        color: #999;
+    }
+
+    .ads-section {
+        margin: 2rem 0;
+        padding: 2rem;
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .ads-section h2 {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .ads-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+
+    .ad-card {
+        position: relative;
+        height: 200px;
+        border-radius: 15px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .ad-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.7));
+        z-index: 1;
+    }
+
+    .ad-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .ad-card p {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        right: 20px;
+        color: white;
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin: 0;
+        z-index: 2;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+
+    .ad-card .ad-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(255, 255, 255, 0.9);
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        color: #2c3e50;
+        z-index: 2;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="ads-section">
+    <h2>Featured Offers</h2>
+    <div id="ads-container" class="ads-container">
+        <div class="ad-card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1615648178124-01f7162ceac4?ixlib=rb-4.0.3') no-repeat center center / cover;">
+            <span class="ad-badge">Special Offer</span>
+            <p>Premium Organic Fertilizers: 20% Off on All Products! 🌱</p>
+        </div>
+        <div class="ad-card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1599583863916-e868f65c5eef?ixlib=rb-4.0.3') no-repeat center center / cover;">
+            <span class="ad-badge">New Arrival</span>
+            <p>High-Yield Certified Seeds: Buy 2 Get 1 Free! 🌾</p>
+        </div>
+        <div class="ad-card" style="background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1592978132026-6208bcaad338?ixlib=rb-4.0.3') no-repeat center center / cover;">
+            <span class="ad-badge">Limited Time</span>
+            <p>Modern Farming Tools: Season-End Clearance Sale! 🚜</p>
+        </div>
+    </div>
+</div>
+
+<div class="product-grid">
+    {% if products %}
+        {% for product in products %}
+            <div class="product-card">
+                <h3 class="product-name">{{ product.productname }}</h3>
+                <p class="product-description">{{ product.productdesc }}</p>
+                <div class="product-meta">
+                    <span class="product-price">₹{{ "%.2f"|format(product.price) }}</span>
+                    <span class="product-status {% if product.is_validated %}status-validated{% else %}status-pending{% endif %}">
+                        {% if product.is_validated %}
+                            <i class="fas fa-check-circle me-1"></i>Validated
+                        {% else %}
+                            <i class="fas fa-clock me-1"></i>Pending
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="product-farmer">
+                    <i class="fas fa-user me-1"></i>Farmer: {{ product.farmer.farmername }}
+                </div>
+                <div class="product-actions">
+                    <div class="product-date">
+                        <i class="fas fa-calendar me-1"></i>
+                        {{ product.created_at.strftime('%B %d, %Y') }}
+                    </div>
+                    {% if current_user.role == 'buyer' %}
+                        <form class="add-to-cart-form" action="{{ url_for('add_to_cart', pid=product.pid) }}" method="POST" onsubmit="return validateQuantity(this, {{ product.quantity }})">
+                            <input type="number" name="quantity" value="1" min="1" max="{{ product.quantity }}" class="quantity-input" required>
+                            <button type="submit" class="add-to-cart-btn" {% if not product.is_validated %}disabled{% endif %}>
+                                <i class="fas fa-shopping-cart"></i>
+                                Add to Cart
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-products">
+            <h2>No products available</h2>
+            <p>Check back later for new products!</p>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+function validateQuantity(form, availableQuantity) {
+    const quantityInput = form.querySelector('input[name="quantity"]');
+    const quantity = parseInt(quantityInput.value);
+    
+    if (quantity > availableQuantity) {
+        alert(`Only ${availableQuantity} items available. Please select a lower quantity.`);
+        quantityInput.value = availableQuantity;
+        return false;
+    }
+    return true;
+}
+</script>
+{% endblock %}

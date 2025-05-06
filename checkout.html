@@ -1,0 +1,347 @@
+{% extends "base.html" %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block style %}
+<style>
+    .checkout-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+    
+    .checkout-header {
+        margin-bottom: 2rem;
+    }
+    
+    .checkout-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+    
+    .checkout-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--dark-color);
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .form-control {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 1rem;
+    }
+    
+    .form-control:focus {
+        border-color: var(--primary-color);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
+    }
+    
+    .order-summary {
+        background: white;
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .summary-total {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--primary-color);
+        margin-top: 1rem;
+    }
+    
+    .payment-btn {
+        width: 100%;
+        padding: 1rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-weight: 500;
+        margin-top: 1.5rem;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+    
+    .payment-btn:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+    
+    .payment-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+    }
+    
+    .cart-items {
+        margin-bottom: 1.5rem;
+    }
+    
+    .cart-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .item-name {
+        font-weight: 500;
+    }
+    
+    .item-quantity {
+        color: #666;
+    }
+    
+    .item-price {
+        font-weight: 500;
+        color: var(--primary-color);
+    }
+    
+    .coupon-section {
+        margin: 1rem 0;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    
+    .coupon-input-group {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .apply-coupon-btn {
+        padding: 0.75rem 1rem;
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    
+    .apply-coupon-btn:hover {
+        background: var(--secondary-color);
+    }
+    
+    .coupon-message {
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    .coupon-message.success {
+        color: #28a745;
+    }
+    
+    .coupon-message.error {
+        color: #dc3545;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="checkout-container">
+    <div class="checkout-header">
+        <h1>Checkout</h1>
+    </div>
+    
+    <div class="checkout-grid">
+        <div class="checkout-section">
+            <h2 class="section-title">Delivery Information</h2>
+            <form id="checkout-form" action="/process_checkout" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="full_name">Full Name</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="phone">Phone Number</label>
+                    <input type="tel" class="form-control" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="address">Delivery Address</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state" required>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label" for="pincode">PIN Code</label>
+                    <input type="text" class="form-control" id="pincode" name="pincode" required>
+                </div>
+                
+                <button type="submit" class="payment-btn">
+                    <i class="fas fa-lock"></i>
+                    Proceed to Payment
+                </button>
+            </form>
+        </div>
+        
+        <div class="order-summary">
+            <h2 class="section-title">Order Summary</h2>
+            
+            <div class="cart-items">
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="item-details">
+                        <span class="item-name">{{ item.product.productname }}</span>
+                        <span class="item-quantity">x{{ item.quantity }}</span>
+                    </div>
+                    <span class="item-price">₹{{ item.quantity * item.product.price }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="summary-row">
+                <span>Subtotal</span>
+                <span>₹{{ total_amount }}</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping</span>
+                <span>Free</span>
+            </div>
+            <div class="coupon-section">
+                <div class="form-group">
+                    <label class="form-label" for="coupon_code">Coupon Code</label>
+                    <div class="coupon-input-group">
+                        <input type="text" class="form-control" id="coupon_code" name="coupon_code" placeholder="Enter coupon code">
+                        <button type="button" class="apply-coupon-btn" onclick="applyCoupon()">Apply</button>
+                    </div>
+                    <div id="coupon-message" class="coupon-message"></div>
+                </div>
+            </div>
+            <div class="summary-row" id="discount-row" style="display: none;">
+                <span>Discount</span>
+                <span id="discount-amount">-₹0</span>
+            </div>
+            <div class="summary-row summary-total">
+                <span>Total</span>
+                <span id="final-total">₹{{ total_amount }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let appliedCoupon = null;
+
+function applyCoupon() {
+    const couponCode = document.getElementById('coupon_code').value.trim();
+    if (!couponCode) {
+        showCouponMessage('Please enter a coupon code', 'error');
+        return;
+    }
+    
+    fetch('/validate_coupon', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            coupon_code: couponCode,
+            total_amount: {{ total_amount }}
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            appliedCoupon = data.coupon;
+            updateOrderSummary(data.discount_amount);
+            showCouponMessage('Coupon applied successfully!', 'success');
+        } else {
+            showCouponMessage(data.message, 'error');
+        }
+    })
+    .catch(error => {
+        showCouponMessage('Error applying coupon. Please try again.', 'error');
+    });
+}
+
+function showCouponMessage(message, type) {
+    const messageDiv = document.getElementById('coupon-message');
+    messageDiv.textContent = message;
+    messageDiv.className = `coupon-message ${type}`;
+}
+
+function updateOrderSummary(discountAmount) {
+    const subtotal = {{ total_amount }};
+    const finalTotal = subtotal - discountAmount;
+    
+    document.getElementById('discount-row').style.display = 'flex';
+    document.getElementById('discount-amount').textContent = `-₹${discountAmount.toFixed(2)}`;
+    document.getElementById('final-total').textContent = `₹${finalTotal.toFixed(2)}`;
+}
+
+document.getElementById('checkout-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
+    
+    // Add coupon code if applied
+    if (appliedCoupon) {
+        data.coupon_code = appliedCoupon.code;
+    }
+    
+    fetch('/process_checkout', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.url) {
+            window.location.href = data.url;
+        } else if (data.error) {
+            alert(data.error);
+        }
+    })
+    .catch(error => {
+        alert('Error processing checkout. Please try again.');
+    });
+});
+</script>
+{% endblock %} 

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}
+My Products
+{% endblock title %}
+
+{% block style %}
+<style>
+  .product-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+  
+  .product-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .product-quality {
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+  }
+  
+  .quality-premium {
+    color: #9c27b0;
+    background-color: rgba(156, 39, 176, 0.1);
+  }
+  
+  .quality-high {
+    color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+  }
+  
+  .quality-medium {
+    color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.1);
+  }
+  
+  .quality-standard {
+    color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.1);
+  }
+  
+  .quality-basic {
+    color: #dc3545;
+    background-color: rgba(220, 53, 69, 0.1);
+  }
+  
+  .product-description {
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .product-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #888;
+    font-size: 0.9rem;
+  }
+  
+  .btn-add {
+    margin-bottom: 20px;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>My Products</h2>
+        <a href="/addagroproduct" class="btn btn-success btn-add">Add New Product</a>
+      </div>
+      
+      {% with messages=get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+      {% for category, message in messages %}
+      <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+        {{message}}
+      </div>
+      {% endfor %}
+      {% endif %}
+      {% endwith %}
+      
+      {% if products %}
+        {% for product in products %}
+        <div class="product-card">
+          <div class="product-header">
+            <div class="product-title">{{ product.productname }}</div>
+            {% if product.is_validated %}
+              <div class="product-quality quality-{{ product.status.lower() }}">
+                {{ product.status }}
+              </div>
+            {% else %}
+              <div class="product-quality" style="color: #6c757d; background-color: rgba(108, 117, 125, 0.1);">
+                Pending Validation
+              </div>
+            {% endif %}
+          </div>
+          <div class="product-description">{{ product.productdesc }}</div>
+          <div class="product-meta">
+            <span>Added on: {{ product.created_at.strftime('%Y-%m-%d %H:%M') }}</span>
+            {% if product.is_validated %}
+              <span>Price: ₹{{ "%.2f"|format(product.price) }}</span>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="alert alert-info">
+          You haven't added any products yet. Click the "Add New Product" button to get started.
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock body %} 

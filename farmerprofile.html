@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+{% block title %}
+Farmer Profile
+{% endblock title %}
+
+{% block style %}
+<style>
+  .profile-form {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-control {
+    height: 40px;
+  }
+
+  textarea.form-control {
+    height: auto;
+    min-height: 80px;
+  }
+
+  .alert {
+    margin-bottom: 20px;
+  }
+
+  .btn-save {
+    margin-top: 10px;
+    padding: 10px 20px;
+  }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <div class="profile-form">
+        <h3 class="text-center mb-4"><span>Create Farmer Profile</span></h3>
+        
+        {% with messages=get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+          {{message}}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        
+        <form action="/farmerprofile" method="post">
+          <div class="form-group">
+            <label for="farmername">Farmer Name</label>
+            <input type="text" class="form-control" name="farmername" id="farmername" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="adharnumber">Aadhar Number</label>
+            <input type="number" class="form-control" name="adharnumber" id="adharnumber" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" class="form-control" name="age" id="age" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="gender">Gender</label>
+            <select class="form-control" id="gender" name="gender" required>
+              <option value="" selected disabled>Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="phonenumber">Phone Number</label>
+            <input type="number" class="form-control" name="phonenumber" id="phonenumber" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea class="form-control" name="address" id="address" required></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="farmingtype">Farming Type</label>
+            <select class="form-control" id="farmingtype" name="farmingtype" required>
+              <option value="" selected disabled>Select Farming Type</option>
+              {% for d in farming %}
+              <option value="{{d.farmingtype}}">{{d.farmingtype}}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="role">Role</label>
+            <select class="form-control" id="role" name="role" required>
+              <option value="" selected disabled>Select Role</option>
+              <option value="farmer">Farmer</option>
+              <option value="validator">Validator</option>
+              <option value="buyer">Buyer</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn btn-success btn-block btn-save">Create Profile</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>
+{% endblock body %} 
